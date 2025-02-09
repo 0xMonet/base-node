@@ -1,0 +1,28 @@
+{
+  "name": "Base Sepolia",
+  "chainId": 84532,
+  "shortName": "base-sepolia",
+  "chain": "ETH",
+  "network": "base-sepolia",
+  "rpc": [
+    "https://sepolia.base.org",
+    "https://base-sepolia.publicnode.com"
+  ],
+  "faucets": [
+    "https://www.alchemy.com/faucets/base-sepolia",
+    "https://faucet.quicknode.com/base/sepolia"
+  ],
+  "explorers": [
+    {
+      "name": "BaseScan",
+      "url": "https://sepolia.basescan.org",
+      "standard": "EIP3091"
+    }
+  ],
+  "nativeCurrency": {
+    "name": "Ethereum",
+    "symbol": "ETH",
+    "decimals": 18
+  }
+}
+

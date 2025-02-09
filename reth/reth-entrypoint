@@ -13,7 +13,9 @@ if [[ -z "$RETH_CHAIN" ]]; then
 fi
 
 mkdir -p $RETH_DATA_DIR
-echo "$OP_NODE_L2_ENGINE_AUTH_RAW" > "$OP_NODE_L2_ENGINE_AUTH"
+#echo "$OP_NODE_L2_ENGINE_AUTH_RAW" > "$OP_NODE_L2_ENGINE_AUTH"
+echo "$OP_NODE_L2_ENGINE_AUTH_RAW" > /data/jwt.secret
+export OP_NODE_L2_ENGINE_AUTH=/data/jwt.secret
 
 exec ./op-reth node \
   -vvv \

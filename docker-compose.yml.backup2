@@ -1,0 +1,56 @@
+services:
+  execution:
+    build:
+      context: .
+      dockerfile: ${CLIENT}/Dockerfile
+    ports:
+      - "8545:8545"       # RPC
+      - "8546:8546"       # Websocket
+      - "7301:6060"       # Metrics
+      - "30303:30303"     # P2P TCP
+      - "30303:30303/udp" # P2P UDP
+    command: [ "bash", "./execution-entrypoint", "--authrpc.jwtsecret=/data/jwt.secret"]
+    volumes:
+      - type: bind
+        source: ${HOST_DATA_DIR}
+        target: /data
+      - type: bind
+        source: ${HOST_DATA_DIR}/jwt.secret
+        target: /data/jwt.secret
+        read_only: false
+    env_file:
+      - .env.sepolia
+#      - .env.mainnet
+    environment:
+      JWT_SECRET_PATH: /data/jwt.secret
+      OP_NODE_L2_ENGINE_AUTH_RAW: ${OP_NODE_L2_ENGINE_AUTH_RAW}
+      OP_NODE_L2_ENGINE_AUTH: ${OP_NODE_L2_ENGINE_AUTH}      
+
+  node:
+    build:
+      context: .
+      dockerfile: ${CLIENT}/Dockerfile
+    depends_on:
+      - execution
+    ports:
+      - "7545:8545"     # RPC
+      - "9222:9222"     # P2P TCP
+      - "9222:9222/udp" # P2P UDP
+      - "7300:7300"     # Metrics
+      - "6060:6060"     # pprof
+      #command: [ "bash", "./op-node-entrypoint" ]
+      #command: [ "bash", "./op-node-entrypoint", "--jwt-secret=/data/jwt.secret" ]
+    command: [ "bash", "./op-node-entrypoint", "--authrpc.jwtsecret=/data/jwt.secret" ]
+    env_file:
+      - .env.sepolia
+#      - .env.mainnet
+    volumes:
+      - type: bind
+        source: ${HOST_DATA_DIR}/jwt.secret
+        target: /data/jwt.secret
+        read_only: false
+    environment:
+      JWT_SECRET_PATH: /data/jwt.secret
+      OP_NODE_L2_ENGINE_AUTH_RAW: ${OP_NODE_L2_ENGINE_AUTH_RAW}
+      OP_NODE_L2_ENGINE_AUTH: ${OP_NODE_L2_ENGINE_AUTH}
+
