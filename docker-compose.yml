@@ -15,7 +15,7 @@ services:
            "--http",
            "--http.addr=0.0.0.0",
            "--http.port=8545",
-           "--http.api=web3,eth,net,engine",
+           "--http.api=web3,eth,net,engine,web3,admin,debug,txpool",
            "--http.corsdomain=*",
            "--http.vhosts=*",
            "--ws",
@@ -52,7 +52,7 @@ services:
       - "7300:7300"     # Metrics
       - "6060:6060"     # pprof
       #command: [ "bash", "./op-node-entrypoint", "--jwt-secret=/data/jwt.secret"]
-    command: [ "bash", "./op-node-entrypoint", "--jwt-secret=/data/jwt.secret", "--rpc-enable", "--execution.jwt-secret=/data/jwt.secret"]
+    command: [ "bash", "./op-node-entrypoint", "--jwt-secret=/data/jwt.secret", "--rpc-enable", "--rpc-enable.admin", "--execution.jwt-secret=/data/jwt.secret"]
       #command: >
       #bash -c './op-node-entrypoint
       #--l1-eth-rpc="${OP_NODE_L1_ETH_RPC}"
